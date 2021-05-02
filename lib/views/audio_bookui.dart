@@ -1,102 +1,120 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-class AudioBook extends StatelessWidget {
+
+import '../constants/colors.dart' as CustomColors;
+import '../constants/images.dart' as AssetImages;
+import 'audio_book_detail.dart';
+
+class AudioBook extends StatefulWidget {
+  @override
+  _AudioBookState createState() => _AudioBookState();
+}
+
+class _AudioBookState extends State<AudioBook> {
   final chapter = List<String>.generate(1000, (i) => 'Chapter $i');
+
   Color gradientStart = Colors.transparent;
+
   Color gradientEnd = Colors.black12;
+
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Expanded(
-          child:  GridView.builder(
+          child: GridView.builder(
+            physics: BouncingScrollPhysics(),
             shrinkWrap: true,
             itemCount: chapter.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 1,),
-            itemBuilder: (contxt, indx){
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.8,
+            ),
+            itemBuilder: (cxt, index) {
               return Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Card(
-                  elevation: 5,
-                  color: Colors.transparent,
-
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(28.49)),
-                  child: Container(
-                    height: 166,
-                    width: 154
-                    ,
-
-                    child:Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.49)),
-                      child: Stack(
-                        children: <Widget>[
-                          //image code
-                          Image(image:
-                          AssetImage('assets/images/Krishna.png'),
-                            height: 166,
-                            width: 154,
-                            fit: BoxFit.fill,
-                          ),
-                          //top grey shadow
-
-                          //bottom grey shadow
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-
-                              height: 50,
-                              width: double.infinity,
-                              decoration: new BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.87),
-                                gradient: new LinearGradient(
-                                  end: const Alignment(0.0, -1),
-                                  begin: const Alignment(0.0, 0.4),
-                                  colors: <Color>[
-                                    const Color(0x8A000000),
-                                    Colors.black12.withOpacity(0.0)
-                                  ],
-                                ),
-
-                              ),
+                padding: const EdgeInsets.all(12.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                    8.0,
+                  ),
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: Image.asset(
+                          AssetImages.IMAGE_TWO,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          height: 80.0,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              end: const Alignment(0.0, -1),
+                              begin: const Alignment(0.0, 0.4),
+                              colors: [
+                                CustomColors.TEXT_BLACK.withOpacity(0.6),
+                                CustomColors.TEXT_BLACK.withOpacity(0.0)
+                              ],
                             ),
                           ),
-                          Column(
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.play_circle_outline,
+                            color: Colors.white,
+                            size: 48.0,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (cxt) => AudioBookDetail(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0.0,
+                        left: 0.0,
+                        right: 0.0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 16.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top:15.0,right: 39.0),
-                                child: Container(
-                                  height: 42.6,
-                                  width: 42.6,
-                                  child: IconButton(icon:Icon(Icons.play_circle_outline, color: Colors.white, size: 80,) , onPressed:(){}
-
-                                  ),
+                              Text(
+                                'Observing The Armies',
+                                style: TextStyle(
+                                  color: CustomColors.TEXT_WHITE,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top:60.0,right: 90.0,left: 5.0),
-                                child: Text('Title',style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
-
-                                ),),
+                              Text(
+                                '46 shlokas',
+                                style: TextStyle(
+                                  color: CustomColors.TEXT_WHITE,
+                                  fontSize: 10.0,
+                                ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right:90.0,left: 5.0),
-                                child: Text('Subtitle',style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-
-                                ),),
-                              ),
-
                             ],
-                          )
-
-                        ],),
-                    ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               );

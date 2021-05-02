@@ -1,55 +1,103 @@
 import 'package:flutter/material.dart';
+
+import '../constants/colors.dart' as CustomColors;
+import '../constants/images.dart' as AssetImages;
+import 'e_book_detail.dart';
+
 class EBook extends StatelessWidget {
-  final chapter = List<String>.generate(1000, (i) => 'Chapter $i');
+  final chapter = List<String>.generate(
+    1000,
+    (i) => 'Chapter ${i + 1}',
+  );
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Expanded(
-            child: ListView.builder(
-                itemCount: chapter.length,
-                itemBuilder: (context,index){
-                  return Row(
+          child: ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: chapter.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (cxt) => EBookDetail(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          height:132,
-                          width: 110,
-                          child: Card(
-
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(80.0)),
-                              elevation: 5,
-                              color: Colors.transparent,
-                              child: Image(image: AssetImage('assets/images/Krishna.png'),
-                                fit: BoxFit.fill,
-                              )
+                      Container(
+                        height: width * 0.36,
+                        width: width * 0.33,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            8.0,
+                          ),
+                        ),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              80.0,
+                            ),
+                          ),
+                          elevation: 0,
+                          color: Colors.transparent,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              8.0,
+                            ),
+                            child: Image.asset(
+                              AssetImages.IMAGE_TWO,
+                              height: width * 0.36,
+                              width: width * 0.33,
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 14,),
+                      SizedBox(
+                        width: 8.0,
+                      ),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom:1.7),
-                            child: Text(chapter[index]),
+                          Text(
+                            chapter[index],
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: CustomColors.TEXT_BLACK_SECONDARY,
+                            ),
                           ),
-                          Text('Title',style: TextStyle(
-                              fontWeight: FontWeight.bold
-                          ),),
-                          Padding(
-                            padding: const EdgeInsets.only(top:1.5),
-                            child: Text('subtitle'),
+                          Text(
+                            'Observing the Armies',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: CustomColors.TEXT_BLACK,
+                            ),
+                          ),
+                          Text(
+                            '46 shlokas',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: CustomColors.TEXT_BLACK_SECONDARY,
+                            ),
                           )
                         ],
                       )
                     ],
-
-                  );
-
-                }
-            )
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ],
     );

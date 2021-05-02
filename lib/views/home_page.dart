@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../constants/colors.dart' as CustomColors;
 import 'audio_bookui.dart';
 import 'ebookui.dart';
 
@@ -14,7 +16,10 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+    );
     super.initState();
   }
 
@@ -26,138 +31,143 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: SafeArea(
-          child: AppBar(
-            actions: [],
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25.0),
-                    topRight: Radius.circular(25.0))),
-            elevation: 2,
-            backgroundColor: Color(0xffE40007),
-            flexibleSpace: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 70.0, 25.0, 0.0),
-                  child: Center(
-                    child: Text(
-                      'Bhagwat Geeta',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 18),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(95.0, 65.0, 5.0, 0.0),
-                  child: Icon(
-                    Icons.more_vert,
-                    color: Colors.white,
-                  ),
-                )
-              ],
-            ),
-          ),
+      appBar: AppBar(
+        backgroundColor: CustomColors.PRIMARY_COLOR,
+        foregroundColor: CustomColors.TEXT_WHITE,
+        centerTitle: true,
+        title: Text(
+          'Bhagavad Geeta',
         ),
+        actions: [
+          PopupMenuButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: IconButton(
+              onPressed: null,
+              icon: Icon(
+                CupertinoIcons.ellipsis_vertical,
+                color: CustomColors.TEXT_WHITE,
+              ),
+            ),
+            itemBuilder: (cxt) => List.generate(
+              1,
+              (index) {
+                return PopupMenuItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Icon(
+                        CupertinoIcons.settings_solid,
+                        color: CustomColors.TEXT_BLACK,
+                      ),
+                      Text(
+                        'Settings',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.TEXT_BLACK,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
           SizedBox(
-            height: 31,
+            height: 24.0,
           ),
-          // give the tab bar a height [can change hheight to preferred height]
           Card(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50.0)),
-            elevation: 5,
+              borderRadius: BorderRadius.circular(
+                50.0,
+              ),
+            ),
+            elevation: 1.0,
             child: Container(
-              width: 250,
-              height: 45,
+              width: width * 0.6,
+              height: 48.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: CustomColors.TEXT_WHITE,
                 borderRadius: BorderRadius.circular(
                   25.0,
                 ),
               ),
-              child: TabBar(
-                physics: NeverScrollableScrollPhysics(),
-                controller: _tabController,
-                // give the indicator a decoration (color and border radius)
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      bottomLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                      bottomRight: Radius.circular(25)),
-                  color: Color(0xCCE40007),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  25.0,
                 ),
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.black,
-                tabs: [
-                  // first tab [you can add an icon using the icon property]
-                  Tab(
-                    text: 'EBook',
+                child: TabBar(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _tabController,
+                  indicator: BoxDecoration(
+                    color: CustomColors.PRIMARY_COLOR,
                   ),
-
-                  // second tab [you can add an icon using the icon property]
-                  Tab(
-                    text: 'AudioBook',
-                  ),
-                ],
+                  labelColor: CustomColors.TEXT_WHITE,
+                  unselectedLabelColor: CustomColors.TEXT_BLACK,
+                  tabs: [
+                    Tab(
+                      text: 'E-Book',
+                    ),
+                    Tab(
+                      text: 'Audio Book',
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           // tab bar view here
           SizedBox(
-            height: 35,
+            height: 24.0,
           ),
           Container(
-            height: 50,
-            width: 380,
+            width: width * 0.9,
             child: Card(
-              elevation: 5,
+              elevation: 1.0,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0)),
+                borderRadius: BorderRadius.circular(100.0),
+              ),
               child: TextField(
                 decoration: InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                        borderSide: BorderSide(
-                          color: Color(0xCCE40007),
-                        )),
-                    focusColor: Color(0xCCE40007),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.grey,
+                  border: InputBorder.none,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(90.0),
                     ),
-                    hintStyle: TextStyle(
-                        color: Colors.grey, fontFamily: "WorkSansLight"),
-                    filled: false,
-                    fillColor: Colors.white24,
-                    hintText: 'search'),
+                    borderSide: BorderSide(
+                      color: CustomColors.PRIMARY_COLOR,
+                    ),
+                  ),
+                  focusColor: CustomColors.PRIMARY_COLOR,
+                  prefixIcon: Icon(
+                    CupertinoIcons.search,
+                    color: CustomColors.TEXT_BLACK_SECONDARY,
+                  ),
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  filled: false,
+                  fillColor: CustomColors.TEXT_BLACK_SECONDARY,
+                  hintText: '',
+                ),
               ),
             ),
           ),
           SizedBox(
-            height: 38,
+            height: 24,
           ),
-
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [
-                // first tab bar view widget
-                EBook(),
-
-                // second tab bar view widget
-                AudioBook()
-              ],
+              children: [EBook(), AudioBook()],
             ),
           ),
         ],
