@@ -5,7 +5,7 @@ import 'e_book_detail.dart';
 import 'like_dialog.dart';
 import 'rate_dialog.dart';
 
-class HomePage extends StatelessWidget {
+class ShowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

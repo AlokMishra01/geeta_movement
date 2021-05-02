@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../constants/colors.dart' as CustomColors;
 import '../constants/images.dart' as AssetImages;
-import 'home_page.dart';
+import 'show_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (cxt) => HomePage(),
+          builder: (cxt) => ShowPage(),
         ),
       ),
       // () => navigate(
