@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../constants/colors.dart' as CustomColors;
-import '../constants/images.dart' as AssetImages;
-import 'home_page.dart';
+import '../../constants/colors.dart' as CustomColors;
+import '../../constants/images.dart' as AssetImages;
+import '../../home/views/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -13,15 +13,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late Timer _timer1;
+  late Timer _timer2;
   int i = 0;
+
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), () {
+    _timer1 = Timer(Duration(seconds: 2), () {
       i = 1;
       setState(() {});
     });
-    Timer(
+    _timer1 = Timer(
       Duration(seconds: 3),
       () => Navigator.pushReplacement(
         context,
@@ -30,13 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
           // builder: (cxt) => ShowPage(),
         ),
       ),
-      // () => navigate(
-      //   context: context,
-      //   replace: true,
-      //   from: SplashScreen(),
-      //   to: HomePage(),
-      // ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer1.cancel();
+    _timer2.cancel();
   }
 
   @override
@@ -51,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: CustomColors.PRIMARY_COLOR.withOpacity(0.96),
-        statusBarBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.light,
       ),
     );

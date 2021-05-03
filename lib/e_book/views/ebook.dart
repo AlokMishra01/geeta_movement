@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/colors.dart' as CustomColors;
-import '../constants/images.dart' as AssetImages;
+import '../../constants/colors.dart' as CustomColors;
+import '../../constants/images.dart' as AssetImages;
 import 'e_book_detail.dart';
 
 class EBook extends StatelessWidget {

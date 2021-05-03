@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/colors.dart' as CustomColors;
-import '../constants/images.dart' as AssetImages;
+import '../../constants/colors.dart' as CustomColors;
+import '../../constants/images.dart' as AssetImages;
 import 'audio_book_detail.dart';
 
 class AudioBook extends StatefulWidget {

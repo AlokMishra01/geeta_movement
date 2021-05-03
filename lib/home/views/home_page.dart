@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geeta_movement/settings/views/setting_page.dart';
 
-import '../constants/colors.dart' as CustomColors;
-import 'audio_bookui.dart';
-import 'ebookui.dart';
+import '../../audio_book/views/audio_book.dart';
+import '../../constants/colors.dart' as CustomColors;
+import '../../e_book/views/ebook.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -45,38 +46,52 @@ class _HomeScreenState extends State<HomeScreen>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: IconButton(
-              onPressed: null,
-              icon: Icon(
-                CupertinoIcons.ellipsis_vertical,
-                color: CustomColors.TEXT_WHITE,
-              ),
-            ),
             itemBuilder: (cxt) => List.generate(
               1,
-              (index) {
-                return PopupMenuItem(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Icon(
-                        CupertinoIcons.settings_solid,
+              (index) => PopupMenuItem(
+                value: '0',
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(
+                      CupertinoIcons.settings_solid,
+                      color: CustomColors.TEXT_BLACK,
+                    ),
+                    Text(
+                      'Settings',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
                         color: CustomColors.TEXT_BLACK,
                       ),
-                      Text(
-                        'Settings',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: CustomColors.TEXT_BLACK,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                    ),
+                    SizedBox(
+                      width: 0.0,
+                    ),
+                  ],
+                ),
+              ),
             ),
-          )
+            icon: Icon(
+              CupertinoIcons.ellipsis_vertical,
+              color: CustomColors.TEXT_WHITE,
+            ),
+            tooltip: 'More Menu',
+            onSelected: (value) {
+              switch (value) {
+                case '0':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (cxt) => SettingsPage(),
+                    ),
+                  );
+                  break;
+                default:
+                  print(value.toString());
+              }
+            },
+          ),
         ],
       ),
       body: Column(
@@ -138,6 +153,8 @@ class _HomeScreenState extends State<HomeScreen>
               child: TextField(
                 decoration: InputDecoration(
                   border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(90.0),

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 
-import '../constants/colors.dart' as CustomColors;
-import '../constants/images.dart' as AssetImages;
+import '../../constants/colors.dart' as CustomColors;
+import '../../constants/images.dart' as AssetImages;
 
 class AudioBookDetail extends StatefulWidget {
   @override
