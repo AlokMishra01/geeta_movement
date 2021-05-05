@@ -1,8 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hindu.youth.union.geeta_movement">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
    <application
         android:label="Geeta Movement"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+        tools:ignore="UnusedAttribute">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geeta_movement/audio_book/provider/audio_book_provider.dart';
+import 'package:geeta_movement/e_book/provider/e_book_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/colors.dart' as CustomColors;
 import '../../constants/images.dart' as AssetImages;
@@ -20,6 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<EBookProvider>();
+    context.read<AudioBookProvider>();
     _timer1 = Timer(Duration(seconds: 2), () {
       i = 1;
       setState(() {});

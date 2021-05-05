@@ -1,9 +1,57 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geeta_movement/common/models/data_model.dart';
+import 'package:pdf_viewer_jk/pdf_viewer_jk.dart';
 
 import '../../constants/colors.dart' as CustomColors;
 
-class EBookDetail extends StatelessWidget {
+class EBookDetail extends StatefulWidget {
+  final Data data;
+
+  const EBookDetail({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+
+  @override
+  _EBookDetailState createState() => _EBookDetailState();
+}
+
+class _EBookDetailState extends State<EBookDetail> {
+  late PageController _controller;
+  PDFDocument? _doc;
+  int _currentIndex = 1;
+  int? _total;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+    _controller.addListener(() {
+      if (_controller.page!.round() != _currentIndex - 1) {
+        setState(() {
+          _currentIndex = _controller.page!.round() + 1;
+        });
+      }
+    });
+    _loadPDF();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _controller.addListener(
+      () => setState(() {}),
+    );
+    super.dispose();
+  }
+
+  _loadPDF() async {
+    _doc = await PDFDocument.fromURL(widget.data.file);
+    _total = _doc?.count;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -12,7 +60,7 @@ class EBookDetail extends StatelessWidget {
           backgroundColor: CustomColors.PRIMARY_COLOR,
           foregroundColor: CustomColors.TEXT_WHITE,
           title: Text(
-            'Bhagavad Geeta',
+            widget.data.title,
           ),
           actions: [
             IconButton(
@@ -38,110 +86,64 @@ class EBookDetail extends StatelessWidget {
         body: Column(
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.all(
-                    16.0,
-                  ),
-                  child: Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed '
-                    'metus rutrum a tortor, donec pellentesque turpis enim a. Id '
-                    'aliquam dictum in est fringilla nibh feugiat gravida orci. '
-                    'Molestie curabitur etiam gravida cras. Neque, proin pharetra '
-                    'quisque nunc purus adipiscing risus aliquam. At quis semper et '
-                    'lorem. Lacus ut libero eu vitae suspendisse purus.\nConsectetur '
-                    'mauris lacinia mi quis tortor parturient imperdiet. Quam '
-                    'iaculis varius neque, vitae. Orci, mattis ac dignissim et, id '
-                    'phasellus. Massa tortor vulputate vel adipiscing. Eu tortor '
-                    'tincidunt in dignissim metus sit aenean quam. Non porta '
-                    'pharetra quisque sit diam. In enim et congue arcu quis integer '
-                    'cras. Egestas non orci dolor fames lectus. Augue dictum in '
-                    'ornare ligula vitae.\nVolutpat nisi velit sed faucibus '
-                    'elementum elementum. Sed habitasse curabitur suspendisse '
-                    'ullamcorper'
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed '
-                    'metus rutrum a tortor, donec pellentesque turpis enim a. Id '
-                    'aliquam dictum in est fringilla nibh feugiat gravida orci. '
-                    'Molestie curabitur etiam gravida cras. Neque, proin pharetra '
-                    'quisque nunc purus adipiscing risus aliquam. At quis semper et '
-                    'lorem. Lacus ut libero eu vitae suspendisse purus.\nConsectetur '
-                    'mauris lacinia mi quis tortor parturient imperdiet. Quam '
-                    'iaculis varius neque, vitae. Orci, mattis ac dignissim et, id '
-                    'phasellus. Massa tortor vulputate vel adipiscing. Eu tortor '
-                    'tincidunt in dignissim metus sit aenean quam. Non porta '
-                    'pharetra quisque sit diam. In enim et congue arcu quis integer '
-                    'cras. Egestas non orci dolor fames lectus. Augue dictum in '
-                    'ornare ligula vitae.\nVolutpat nisi velit sed faucibus '
-                    'elementum elementum. Sed habitasse curabitur suspendisse '
-                    'ullamcorper'
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed '
-                    'metus rutrum a tortor, donec pellentesque turpis enim a. Id '
-                    'aliquam dictum in est fringilla nibh feugiat gravida orci. '
-                    'Molestie curabitur etiam gravida cras. Neque, proin pharetra '
-                    'quisque nunc purus adipiscing risus aliquam. At quis semper et '
-                    'lorem. Lacus ut libero eu vitae suspendisse purus.\nConsectetur '
-                    'mauris lacinia mi quis tortor parturient imperdiet. Quam '
-                    'iaculis varius neque, vitae. Orci, mattis ac dignissim et, id '
-                    'phasellus. Massa tortor vulputate vel adipiscing. Eu tortor '
-                    'tincidunt in dignissim metus sit aenean quam. Non porta '
-                    'pharetra quisque sit diam. In enim et congue arcu quis integer '
-                    'cras. Egestas non orci dolor fames lectus. Augue dictum in '
-                    'ornare ligula vitae.\nVolutpat nisi velit sed faucibus '
-                    'elementum elementum. Sed habitasse curabitur suspendisse '
-                    'ullamcorper',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: CustomColors.TEXT_BLACK,
+              child: _doc == null
+                  ? Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    )
+                  : PDFViewer(
+                      controller: _controller,
+                      document: _doc!,
+                      scrollDirection: Axis.vertical,
+                      showNavigation: false,
+                      showIndicator: false,
+                      showPicker: false,
+                      navigationBuilder: (cxt, i, j, fun1, fun2) => SizedBox(),
                     ),
-                  ),
-                ),
-              ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Container(
-                height: 66.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: CustomColors.PRIMARY_COLOR.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(66.0),
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4.0),
-                          child: LinearProgressIndicator(
-                            value: 0.5,
-                            backgroundColor: CustomColors.GREY,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              CustomColors.PRIMARY_COLOR.withOpacity(0.7),
+            if (_doc != null)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  height: 66.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: CustomColors.PRIMARY_COLOR.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(66.0),
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4.0),
+                            child: LinearProgressIndicator(
+                              value: _currentIndex / _total!,
+                              backgroundColor: CustomColors.GREY,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                CustomColors.PRIMARY_COLOR.withOpacity(0.7),
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          '5/42',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: CustomColors.TEXT_BLACK,
+                          Text(
+                            '$_currentIndex/$_total',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: CustomColors.TEXT_BLACK,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
+              )
           ],
         ),
       ),
