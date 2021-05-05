@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:geeta_movement/common/models/data_model.dart';
-import 'package:geeta_movement/constants/apis.dart';
-import 'package:geeta_movement/services/dio_service.dart';
+
+import '../../common/models/data_model.dart';
+import '../../constants/apis.dart';
+import '../../services/dio_service.dart';
 
 class AudioBookProvider with ChangeNotifier {
   late DioService _dioService;

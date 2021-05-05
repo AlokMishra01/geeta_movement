@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geeta_movement/common/models/data_model.dart';
 import 'package:pdf_viewer_jk/pdf_viewer_jk.dart';
 
+import '../../common/models/data_model.dart';
 import '../../constants/colors.dart' as CustomColors;
 
 class EBookDetail extends StatefulWidget {

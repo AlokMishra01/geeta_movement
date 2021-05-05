@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geeta_movement/settings/views/setting_page.dart';
+import 'package:provider/provider.dart';
 
+import '../../audio_book/provider/audio_book_provider.dart';
 import '../../audio_book/views/audio_book.dart';
 import '../../constants/colors.dart' as CustomColors;
+import '../../e_book/provider/e_book_provider.dart';
 import '../../e_book/views/ebook.dart';
+import '../../settings/views/setting_page.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -14,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  TextEditingController _editingController = TextEditingController();
 
   @override
   void initState() {
@@ -26,13 +30,16 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void dispose() {
-    super.dispose();
     _tabController.dispose();
+    _editingController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final aBook = context.watch<AudioBookProvider>();
+    final eBook = context.watch<EBookProvider>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.PRIMARY_COLOR,
@@ -151,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen>
                 borderRadius: BorderRadius.circular(100.0),
               ),
               child: TextField(
+                controller: _editingController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -168,6 +176,18 @@ class _HomeScreenState extends State<HomeScreen>
                     CupertinoIcons.search,
                     color: CustomColors.TEXT_BLACK_SECONDARY,
                   ),
+                  suffixIcon: _editingController.text.trim().length > 0
+                      ? IconButton(
+                          icon: Icon(
+                            CupertinoIcons.xmark_circle_fill,
+                            color: CustomColors.TEXT_RED,
+                          ),
+                          onPressed: () {
+                            _editingController.clear();
+                            setState(() {});
+                          },
+                        )
+                      : null,
                   hintStyle: TextStyle(
                     color: Colors.grey,
                   ),
@@ -175,6 +195,9 @@ class _HomeScreenState extends State<HomeScreen>
                   fillColor: CustomColors.TEXT_BLACK_SECONDARY,
                   hintText: '',
                 ),
+                onChanged: (v) {
+                  setState(() {});
+                },
               ),
             ),
           ),
@@ -184,7 +207,16 @@ class _HomeScreenState extends State<HomeScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [EBook(), AudioBook()],
+              children: [
+                EBook(
+                  query: _editingController.text.trim(),
+                  eBooks: eBook.model!.data,
+                ),
+                AudioBook(
+                  query: _editingController.text.trim(),
+                  aBooks: aBook.model!.data,
+                ),
+              ],
             ),
           ),
         ],

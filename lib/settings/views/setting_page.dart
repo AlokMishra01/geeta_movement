@@ -1,9 +1,9 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geeta_movement/settings/views/privacy_policy.dart';
 
 import '../../constants/colors.dart' as CustomColors;
+import '../../settings/views/privacy_policy.dart';
 import 'aboutus_page.dart';
 import 'feedback_suggestion_page.dart';
 import 'terms_condtion_page.dart';

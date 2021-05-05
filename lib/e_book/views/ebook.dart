@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:geeta_movement/e_book/provider/e_book_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../common/models/data_model.dart';
 import '../../constants/colors.dart' as CustomColors;
 import '../../constants/images.dart' as AssetImages;
+import '../../e_book/provider/e_book_provider.dart';
 import 'e_book_detail.dart';
 
 class EBook extends StatelessWidget {
+  final String query;
+  final List<Data> eBooks;
+
+  const EBook({
+    Key? key,
+    required this.query,
+    required this.eBooks,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -46,7 +56,12 @@ class EBook extends StatelessWidget {
                       onRefresh: () => eBook.loadData(false),
                       child: ListView.builder(
                         physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: eBook.model?.data.length,
+                        itemCount: eBook.model?.data
+                            .where((e) => e.title
+                                .toLowerCase()
+                                .contains(query.toLowerCase()))
+                            .toList()
+                            .length,
                         itemBuilder: (context, index) {
                           final e = eBook.model?.data[index];
                           return Padding(

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geeta_movement/audio_book/provider/audio_book_provider.dart';
-import 'package:geeta_movement/e_book/provider/e_book_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../audio_book/provider/audio_book_provider.dart';
 import '../../constants/colors.dart' as CustomColors;
 import '../../constants/images.dart' as AssetImages;
+import '../../e_book/provider/e_book_provider.dart';
 import '../../home/views/home_page.dart';
 
 class SplashScreen extends StatefulWidget {

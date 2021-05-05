@@ -3,10 +3,10 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geeta_movement/audio_book/provider/audio_book_provider.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:provider/provider.dart';
 
+import '../../audio_book/provider/audio_book_provider.dart';
 import '../../constants/colors.dart' as CustomColors;
 
 class AudioBookDetail extends StatefulWidget {

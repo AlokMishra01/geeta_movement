@@ -4,10 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../audio_book/provider/audio_book_provider.dart';
+import '../../common/models/data_model.dart';
 import '../../constants/colors.dart' as CustomColors;
 import 'audio_book_detail.dart';
 
 class AudioBook extends StatelessWidget {
+  final String query;
+  final List<Data> aBooks;
+
+  const AudioBook({
+    Key? key,
+    required this.query,
+    required this.aBooks,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final aBook = context.watch<AudioBookProvider>();
@@ -47,7 +57,12 @@ class AudioBook extends StatelessWidget {
                       child: GridView.builder(
                         physics: AlwaysScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: aBook.model?.data.length,
+                        itemCount: aBook.model?.data
+                            .where((e) => e.title
+                                .toLowerCase()
+                                .contains(query.toLowerCase()))
+                            .toList()
+                            .length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: 0.9,

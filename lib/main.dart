@@ -1,10 +1,10 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:geeta_movement/audio_book/provider/audio_book_provider.dart';
-import 'package:geeta_movement/e_book/provider/e_book_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'audio_book/provider/audio_book_provider.dart';
+import 'e_book/provider/e_book_provider.dart';
 import 'splash/views/splash_screen.dart';
 
 Future<void> main() async {
