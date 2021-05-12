@@ -28,9 +28,11 @@ class EBookProvider with ChangeNotifier {
             jsonDecode('{"data":${jsonEncode(response.data)}}'),
           );
         } else {
+          print(response.data);
           _error = true;
         }
       } catch (e) {
+        print(e);
         _error = true;
       }
       if (!isInit) notifyListeners();

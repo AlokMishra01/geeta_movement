@@ -1,11 +1,10 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart' as CustomColors;
 import '../../settings/views/privacy_policy.dart';
 import 'aboutus_page.dart';
-import 'feedback_suggestion_page.dart';
+import 'credit_page.dart';
 import 'terms_condtion_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -52,22 +51,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 return () {};
               },
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            buildNotificationOptionRow(
-              title: "Dark Mode",
-              isActive:
-                  AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark,
-              onChanged: (bool val) async {
-                if (val) {
-                  AdaptiveTheme.of(context).setDark();
-                } else {
-                  AdaptiveTheme.of(context).setLight();
-                }
-                await AdaptiveTheme.of(context).persist();
-              },
-            ),
+            // SizedBox(
+            //   height: 20.0,
+            // ),
+            // buildNotificationOptionRow(
+            //   title: "Dark Mode",
+            //   isActive:
+            //       AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark,
+            //   onChanged: (bool val) async {
+            //     if (val) {
+            //       AdaptiveTheme.of(context).setDark();
+            //     } else {
+            //       AdaptiveTheme.of(context).setLight();
+            //     }
+            //     await AdaptiveTheme.of(context).persist();
+            //   },
+            // ),
             SizedBox(
               height: 24.0,
             ),
@@ -129,6 +128,23 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: "Terms and conditions",
               ),
             ),
+            // SizedBox(
+            //   height: 16.0,
+            // ),
+            // InkWell(
+            //   onTap: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => FeedBack(),
+            //       ),
+            //     );
+            //   },
+            //   child: _buildAccountOptionRow(
+            //     context: context,
+            //     title: "Suggestion and Feedback",
+            //   ),
+            // ),
             SizedBox(
               height: 16.0,
             ),
@@ -137,20 +153,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FeedBack(),
+                    builder: (context) => CreditPage(),
                   ),
                 );
               },
-              child: _buildAccountOptionRow(
-                context: context,
-                title: "Suggestion and Feedback",
-              ),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            InkWell(
-              onTap: () {},
               child: _buildAccountOptionRow(
                 context: context,
                 title: "Credits",

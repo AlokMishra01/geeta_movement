@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'audio_book/provider/audio_book_provider.dart';
 import 'e_book/provider/e_book_provider.dart';
+import 'settings/providers/setting_provider.dart';
 import 'splash/views/splash_screen.dart';
 
 Future<void> main() async {
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<AudioBookProvider>(
             create: (_) => AudioBookProvider(),
+          ),
+          ChangeNotifierProvider<SettingProvider>(
+            create: (_) => SettingProvider(),
           ),
         ],
         child: AdaptiveTheme(

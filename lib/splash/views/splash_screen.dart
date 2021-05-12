@@ -9,6 +9,7 @@ import '../../constants/colors.dart' as CustomColors;
 import '../../constants/images.dart' as AssetImages;
 import '../../e_book/provider/e_book_provider.dart';
 import '../../home/views/home_page.dart';
+import '../../settings/providers/setting_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -25,12 +26,13 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     context.read<EBookProvider>();
     context.read<AudioBookProvider>();
+    context.read<SettingProvider>();
     _timer1 = Timer(Duration(seconds: 2), () {
       i = 1;
       setState(() {});
     });
     _timer1 = Timer(
-      Duration(seconds: 3),
+      Duration(seconds: 4),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(

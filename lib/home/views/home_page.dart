@@ -210,11 +210,11 @@ class _HomeScreenState extends State<HomeScreen>
               children: [
                 EBook(
                   query: _editingController.text.trim(),
-                  eBooks: eBook.model!.data,
+                  eBooks: eBook.model == null ? [] : eBook.model!.data,
                 ),
                 AudioBook(
                   query: _editingController.text.trim(),
-                  aBooks: aBook.model!.data,
+                  aBooks: aBook.model == null ? [] : aBook.model!.data,
                 ),
               ],
             ),
