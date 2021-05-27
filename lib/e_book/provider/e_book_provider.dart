@@ -18,7 +18,7 @@ class EBookProvider with ChangeNotifier {
   }
 
   loadData(bool isInit) async {
-    if (DateTime(2021, 5, 15).isAfter(DateTime.now())) {
+    if (DateTime(2021, 6, 1).isAfter(DateTime.now())) {
       _error = false;
       if (!isInit) notifyListeners();
       try {
