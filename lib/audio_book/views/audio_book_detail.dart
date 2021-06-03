@@ -26,7 +26,7 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
   int _selectedIndex = 0;
 
   late AudioPlayer _audioPlayer;
-  AudioPlayerState _playerState = AudioPlayerState.STOPPED;
+  PlayerState _playerState = PlayerState.STOPPED;
   bool _isStarting = false;
   Duration _totalTime = Duration(seconds: 0);
   Duration _currentTime = Duration(seconds: 0);
@@ -43,7 +43,7 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
     _audioPlayer.onPlayerCompletion.listen(_playerOnComplete);
   }
 
-  _playerStateChanged(AudioPlayerState s) {
+  _playerStateChanged(PlayerState s) {
     _playerState = s;
     setState(() {});
   }
@@ -85,8 +85,8 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
     _audioPlayer.pause();
   }
 
-  _rePlay() {
-    _audioPlayer.seek(Duration(seconds: 0));
+  _rePlay(int seconds) {
+    _audioPlayer.seek(Duration(seconds: seconds));
     _play();
   }
 
@@ -112,11 +112,6 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
       _controller.animateToItem(0);
       _selectedIndex = 0;
     }
-    _play();
-  }
-
-  _seekTo(Duration to) {
-    _audioPlayer.seek(to);
     _play();
   }
 
@@ -178,7 +173,7 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
                     setState(() {
                       _selectedIndex = index;
                     });
-                    if (_playerState != AudioPlayerState.STOPPED) _play();
+                    if (_playerState != PlayerState.STOPPED) _play();
                   }
                 },
                 itemBuilder: (context, itemIndex, realIndex) {
@@ -242,14 +237,12 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
                 SizedBox(
                   height: 24.0,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Row(
                         children: [
                           Text(
                             _printDuration(_currentTime),
@@ -272,25 +265,26 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
                           ),
                         ],
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4.0),
-                        child: Slider.adaptive(
-                          value: (_currentTime.inMilliseconds /
-                              _totalTime.inMilliseconds),
-                          onChanged: (time) {
-                            _currentTime = Duration(seconds: time.round());
-                            setState(() {});
-                          },
-                          max: _totalTime.inSeconds.toDouble(),
-                          min: 0.0,
-                          onChangeEnd: (time) {
-                            _seekTo(Duration(seconds: time.round()));
-                          },
-                          label: _printDuration(_currentTime),
-                        ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4.0),
+                      child: Slider(
+                        value: _currentTime.inSeconds.toDouble(),
+                        onChanged: (time) {
+                          _currentTime = Duration(seconds: time.round());
+                          setState(() {});
+                        },
+                        max: _totalTime.inSeconds == 0
+                            ? 0.1
+                            : _totalTime.inSeconds.toDouble(),
+                        min: 0.0,
+                        onChangeEnd: (time) {
+                          _rePlay(time.round());
+                        },
+                        label: _printDuration(_currentTime),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 24.0,
@@ -300,7 +294,7 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
                   children: [
                     InkWell(
                       onTap: () {
-                        _rePlay();
+                        _rePlay(0);
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.transparent,
@@ -332,7 +326,7 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
                         ? CircularProgressIndicator.adaptive()
                         : InkWell(
                             onTap: () {
-                              if (_playerState != AudioPlayerState.PLAYING)
+                              if (_playerState != PlayerState.PLAYING)
                                 _play();
                               else
                                 _pause();
@@ -342,7 +336,7 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
                               radius: 24.0,
                               child: Center(
                                 child: Icon(
-                                  _playerState != AudioPlayerState.PLAYING
+                                  _playerState != PlayerState.PLAYING
                                       ? CupertinoIcons.play_arrow_solid
                                       : CupertinoIcons.pause_solid,
                                   color: CustomColors.TEXT_WHITE,
@@ -367,10 +361,12 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
                     ),
                     InkWell(
                       onTap: () {
-                        _selectedIndex = Random().nextInt(
-                          aBook.model!.data.length,
-                        );
-                        _play();
+                        if (aBook.model != null) {
+                          _selectedIndex = Random().nextInt(
+                            aBook.model!.data.length,
+                          );
+                          _play();
+                        }
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.transparent,

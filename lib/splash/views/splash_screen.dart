@@ -56,13 +56,10 @@ class _SplashScreenState extends State<SplashScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    SystemChrome.setEnabledSystemUIOverlays([
-      SystemUiOverlay.top,
-    ]);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: CustomColors.PRIMARY_COLOR.withOpacity(0.96),
-        statusBarBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.light,
       ),
     );
