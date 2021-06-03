@@ -28,8 +28,8 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
   late AudioPlayer _audioPlayer;
   AudioPlayerState _playerState = AudioPlayerState.STOPPED;
   bool _isStarting = false;
-  Duration? _totalTime;
-  Duration? _currentTime;
+  Duration _totalTime = Duration(seconds: 0);
+  Duration _currentTime = Duration(seconds: 0);
 
   @override
   void initState() {
@@ -112,6 +112,11 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
       _controller.animateToItem(0);
       _selectedIndex = 0;
     }
+    _play();
+  }
+
+  _seekTo(Duration to) {
+    _audioPlayer.seek(to);
     _play();
   }
 
@@ -269,15 +274,19 @@ class _AudioBookDetailState extends State<AudioBookDetail> {
                       ),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(4.0),
-                        child: LinearProgressIndicator(
-                          value: _currentTime != null
-                              ? (_currentTime!.inMilliseconds /
-                                  _totalTime!.inMilliseconds)
-                              : 0,
-                          backgroundColor: CustomColors.GREY,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            CustomColors.PRIMARY_COLOR.withOpacity(0.7),
-                          ),
+                        child: Slider.adaptive(
+                          value: (_currentTime.inMilliseconds /
+                              _totalTime.inMilliseconds),
+                          onChanged: (time) {
+                            _currentTime = Duration(seconds: time.round());
+                            setState(() {});
+                          },
+                          max: _totalTime.inSeconds.toDouble(),
+                          min: 0.0,
+                          onChangeEnd: (time) {
+                            _seekTo(Duration(seconds: time.round()));
+                          },
+                          label: _printDuration(_currentTime),
                         ),
                       ),
                     ],
